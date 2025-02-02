@@ -23,7 +23,9 @@ import {
 import { Button } from "../components/ui/button";
 import TrackCard from "../components/TrackCard";
 import { useEffect, useState } from "react";
-import { playlistMockUp } from "../services/MockUpData";
+import { playlistMockUp } from "../services/mockUpData";
+import { axiosInstance } from "../utils/axiosInstance";
+import { getPlaylistById, updatePlaylist, addPlaylistTrack, deletePlaylistTrack, getOwnedPlaylist } from "../services/playlistService";
 
 export default function Playlist() {
   const id = useParams().id || 1;
@@ -36,25 +38,36 @@ export default function Playlist() {
 
   const fetchOwnedPlaylistData = async () => {
     // insert your code here
-    const fetchedOwnedPlaylist = playlistMockUp.filter((item) => item.id != 1);
+    const fetchedOwnedPlaylist = await getOwnedPlaylist();
     setOwnedPlaylist(fetchedOwnedPlaylist);
   };
   const fetchPlaylistData = async () => {
     // insert your code here
-    const fetchedPlaylist = playlistMockUp.find((item) => item.id == id);
+    const fetchedPlaylist = await getPlaylistById(id || 1);
+    console.log(fetchedPlaylist)
     setPlaylist(fetchedPlaylist); 
   };
   useEffect(() => {
-    fetchPlaylistData();
+    fetchPlaylistData()
     fetchOwnedPlaylistData();
   }, [id]);
 
   const updatePlaylistData = async () => {
     // insert your code here
+    await updatePlaylist(
+      playlist.id,
+      newTitle || playlist.title,
+      newDescription || playlist.description
+    )
+    fetchPlaylistData();
+    fetchOwnedPlaylistData();
+    alert("Playlist update successfully")
+
+
   };
 
-  const handleTrackRemoval = () => {
-    // fetchPlaylistData();
+  const handleTrackRemoval = async () => {
+    fetchPlaylistData();
   };
 
   return (

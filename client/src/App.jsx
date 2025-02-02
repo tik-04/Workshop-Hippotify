@@ -6,6 +6,7 @@ import SideBar from "./components/SideBar";
 import MusicPlayer from "./components/MusicPlayer";
 
 import { useEffect, useState } from "react";
+import { getUser } from "./services/userService";
 
 function App() {
   const [currentTrack, setCurrentTrack] = useState(null);
@@ -13,10 +14,12 @@ function App() {
 
   const fetchUserData = async () => {
     // insert you code here
+    const response = await getUser();
+    setUser(response)
   };
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, []); 
 
   const handleTrackChange = (track) => {
     setCurrentTrack(track);

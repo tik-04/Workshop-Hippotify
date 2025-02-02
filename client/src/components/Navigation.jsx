@@ -42,7 +42,7 @@ export default function Navigation({ user }) {
           What do you want to play?
         </Button>
       </Flex>
-      <Image src={profile} width={"40px"} />
+      <Image src={user?.image_url} width={"40px"} rounded={10} height={"43px"}/>
     </Flex>
   );
 }
